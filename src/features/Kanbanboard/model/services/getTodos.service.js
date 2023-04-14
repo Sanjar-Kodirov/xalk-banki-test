@@ -7,7 +7,7 @@ export const getTodos = createAsyncThunk(
     'todos/getTodos',
     async (thunkAPI) => {
         try {
-            const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
+            const response = await axios.get('http://localhost:3000/todos');
             if (!response.data) {
                 throw new Error();
             }

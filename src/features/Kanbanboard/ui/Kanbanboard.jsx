@@ -1,51 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
+import { useDispatch, useSelector } from "react-redux";
 import Column from "./Column";
-
+import { getTodos } from "../model/services/getTodos.service";
+import { getTodosCompleted, getTodosIncomplete } from "../model/selectors/getTodos.selector";
+import { todosAction } from "../model/slice/todosSlice";
 export function KanbanBoard() {
-  const [completed, setCompleted] = useState([]);
-  const [incomplete, setIncomplete] = useState([]);
+  const completed = useSelector(getTodosCompleted);
+  const incomplete = useSelector(getTodosIncomplete);
+  const dispatch = useDispatch();
+
+  const { removeItemByIdCompeted, removeItemByIdInCompeted, setCompleted, setIncomplete } = todosAction;
 
   useEffect(() => {
-    fetch("http://localhost:3000/todos")
-      .then((response) => response.json())
-      .then((json) => {
-        setCompleted(json.filter((task) => task.completed));
-        setIncomplete(json.filter((task) => !task.completed));
-      });
-  }, []);
+    dispatch(getTodos());
+  }, [])
 
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
 
+
     if (source.droppableId == destination.droppableId) return;
 
-    //REMOVE FROM SOURCE ARRAY
 
+    //REMOVE FROM SOURCE ARRAY
     if (source.droppableId == 2) {
-      setCompleted(removeItemById(draggableId, completed));
+      dispatch(removeItemByIdCompeted(draggableId));
     } else {
-      setIncomplete(removeItemById(draggableId, incomplete));
+      dispatch(removeItemByIdInCompeted(draggableId, incomplete));
     }
 
     // GET ITEM
-
     const task = findItemById(draggableId, [...incomplete, ...completed]);
 
     //ADD ITEM
     if (destination.droppableId == 2) {
-      setCompleted([{ ...task, completed: !task.completed }, ...completed]);
+      dispatch(setCompleted([{ ...task, completed: !task.completed }, ...completed]));
     } else {
-      setIncomplete([{ ...task, completed: !task.completed }, ...incomplete]);
+      dispatch(setIncomplete([{ ...task, completed: !task.completed }, ...incomplete]));
     }
   };
 
   function findItemById(id, array) {
     return array.find((item) => item.id == id);
-  }
-
-  function removeItemById(id, array) {
-    return array.filter((item) => item.id != id);
   }
 
   return (
