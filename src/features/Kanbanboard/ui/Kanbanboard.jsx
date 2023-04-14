@@ -19,9 +19,7 @@ export function KanbanBoard() {
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
 
-
     if (source.droppableId == destination.droppableId) return;
-
 
     //REMOVE FROM SOURCE ARRAY
     if (source.droppableId == 2) {

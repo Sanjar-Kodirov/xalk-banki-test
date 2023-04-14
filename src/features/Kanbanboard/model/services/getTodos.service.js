@@ -2,12 +2,13 @@
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { API_URL } from 'src/shared/api/api';
 
 export const getTodos = createAsyncThunk(
     'todos/getTodos',
     async (thunkAPI) => {
         try {
-            const response = await axios.get('http://localhost:3000/todos');
+            const response = await axios.get(API_URL);
             if (!response.data) {
                 throw new Error();
             }

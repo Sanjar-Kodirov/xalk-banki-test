@@ -37,7 +37,7 @@ const todosSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getTodos.pending, (state, action) => {
+            .addCase(getTodos.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(getTodos.fulfilled, (state, action) => {
