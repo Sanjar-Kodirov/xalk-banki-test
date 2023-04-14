@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import Column from "./Column";
 
-export default function KanbanBoard() {
+export function KanbanBoard() {
   const [completed, setCompleted] = useState([]);
   const [incomplete, setIncomplete] = useState([]);
 
