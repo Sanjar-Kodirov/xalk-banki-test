@@ -1,16 +1,21 @@
 
 # xalk-banki-test
 
+Get my project with: 
 
+```bash
+  git clone https://github.com/Sanjar-Kodirov/xalk-banki-test.git
+
+  cd my-project-name
+```
 
 
 ## Installation
 
-Install my-project with npm
+Install dependency with npm
 
 ```bash
   npm install 
-  cd my-project-name
 ```
 
 run json-server:
