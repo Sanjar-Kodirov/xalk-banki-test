@@ -1,7 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { Avatar, Image } from "antd";
+import { Avatar, Button, Image } from "antd";
+import TaskFeature from "./TaskFeature";
 
 const Container = styled.div`
   border-radius: 10px;
@@ -30,15 +31,15 @@ function bgcolorChange(props) {
   return props.isDragging
     ? "lightgreen"
     : props.isDraggable
-    ? props.isBacklog
-      ? "#F2D7D5"
-      : "#DCDCDC"
-    : props.isBacklog
-    ? "#F2D7D5"
-    : "#EAF4FC";
+      ? props.isBacklog
+        ? "#F2D7D5"
+        : "#DCDCDC"
+      : props.isBacklog
+        ? "#F2D7D5"
+        : "#EAF4FC";
 }
 
-export default function Task({ task, index }) {
+const Task = memo(({ task, index }) => {
   return (
     <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
       {(provided, snapshot) => (
@@ -61,6 +62,9 @@ export default function Task({ task, index }) {
           >
             <TextContent>{task.title}</TextContent>
           </div>
+          <TextContent>{task.description}</TextContent>
+
+          <TaskFeature task={task} />
           <Icons>
             <div>
               <Avatar
@@ -74,4 +78,6 @@ export default function Task({ task, index }) {
       )}
     </Draggable>
   );
-}
+});
+
+export default Task;

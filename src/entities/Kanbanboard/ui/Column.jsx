@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import Task from "./Task";
 import "./scroll.css";
@@ -29,7 +29,7 @@ const TaskList = styled.div`
   min-height: 100px;
 `;
 
-export default function Column({ title, tasks, id }) {
+const Column = memo(({ title, tasks, id }) => {
   return (
     <Container className="column">
       <Title
@@ -56,4 +56,5 @@ export default function Column({ title, tasks, id }) {
       </Droppable>
     </Container>
   );
-}
+});
+export default Column;

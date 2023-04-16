@@ -1,6 +1,6 @@
 // create a slice of state for the todos json data
 import { createSlice } from '@reduxjs/toolkit';
-import { getTodos } from '../services/getTodos.service';
+import { deleteTodo, getTodos, postTodo } from '../services/todos.service';
 const initialState = {
     completed: [],
     incomplete: [],
@@ -48,7 +48,28 @@ const todosSlice = createSlice({
             })
             .addCase(getTodos.rejected, (state, action) => {
                 state.todos = [];
-            });
+            })
+        // .addCase(postTodo.fulfilled, (state, action) => {
+        //     if (action.payload.completed) {
+        //         state.completed.unshift(action.payload);
+        //     } else {
+        //         state.incomplete.unshift(action.payload);
+        //     }
+        //     state.isLoading = false;
+        // })
+        // .addCase(postTodo.rejected, (state, action) => {
+        //     state.todos = [];
+        // }
+        // )
+        // .addCase(deleteTodo.pending, (state) => {
+        //     state.isLoading = true;
+        // })
+        // .addCase(deleteTodo.fulfilled, (state, action) => {
+        //     state.completed = state.completed.filter((item) => item.id != action.payload);
+        //     state.incomplete = state.incomplete.filter((item) => item.id != action.payload);
+        //     state.isLoading = false;
+        // })
+
     }
 });
 

@@ -2,12 +2,16 @@ import React, { useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import Column from "./Column";
-import { getTodos } from "../model/services/getTodos.service";
-import { getTodosCompleted, getTodosIncomplete } from "../model/selectors/getTodos.selector";
+import { getTodos } from "../model/services/todos.service";
+import { getTodosCompleted, getTodosIncomplete } from "../model/selectors/todos.selector";
 import { todosAction } from "../model/slice/todosSlice";
+import { CreateTodos } from "./CreateTodos";
 export function KanbanBoard() {
+
   const completed = useSelector(getTodosCompleted);
   const incomplete = useSelector(getTodosIncomplete);
+
+  console.log(completed, incomplete);
   const dispatch = useDispatch();
 
   const { removeItemByIdCompeted, removeItemByIdInCompeted, setCompleted, setIncomplete } = todosAction;
@@ -27,10 +31,8 @@ export function KanbanBoard() {
     } else {
       dispatch(removeItemByIdInCompeted(draggableId, incomplete));
     }
-
     // GET ITEM
     const task = findItemById(draggableId, [...incomplete, ...completed]);
-
     //ADD ITEM
     if (destination.droppableId == 2) {
       dispatch(setCompleted([{ ...task, completed: !task.completed }, ...completed]));
@@ -44,21 +46,25 @@ export function KanbanBoard() {
   }
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <h2 style={{ textAlign: "center" }}>PROGRESS BOARD</h2>
+    <div>
+      <CreateTodos />
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <h2 style={{ textAlign: "center" }}>PROGRESS BOARD</h2>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexDirection: "row",
-        }}
-      >
-        <Column title={"TO DO"} tasks={incomplete} id={"1"} />
-        <Column title={"DONE"} tasks={completed} id={"2"} />
-        <Column title={"BACKLOG"} tasks={[]} id={"3"} />
-      </div>
-    </DragDropContext>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Column title={"TO DO"} tasks={incomplete} id={"1"} />
+          <Column title={"DONE"} tasks={completed} id={"2"} />
+          <Column title={"BACKLOG"} tasks={[]} id={"3"} />
+        </div>
+      </DragDropContext>
+    </div>
+
   );
 }
